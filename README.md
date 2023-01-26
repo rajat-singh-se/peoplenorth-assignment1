@@ -8,6 +8,14 @@ composer install
 
 npm install
 
+create database and assign database in .env file
+
 php artisan migrate
+
+then 
+
+php artisan serve
+
+npm run dev
  
 
