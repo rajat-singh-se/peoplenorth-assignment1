@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,6 +26,10 @@ class EmployeeController extends Controller
 
         $val=$request->validate(['name'=>'required','email'=>'required|email','phone'=>'required|numeric|digits:10']);
 
+
+        try{
+
+            DB::beginTransaction();
         $emp=new Employee();
         $emp->name=$request->name;
         $emp->email=$request->email;
@@ -40,6 +46,14 @@ class EmployeeController extends Controller
             $emp->img=$path.$filename;
             $emp->save();
         }
+        DB::commit();
+    }
+    catch(Exception $e){
+
+        DB::rollback();
+        return response()->json(['status'=>'error','details'=>'Something went wrong!']);
+
+    }
 
         return response()->json(['status'=>'success']);
 
@@ -50,6 +64,10 @@ class EmployeeController extends Controller
     public function updateEmployeeData($id,Request $request){
         $val=$request->validate(['name'=>'required','email'=>'required|email','phone'=>'required|numeric|digits:10']);
 
+
+        try{
+
+            DB::beginTransaction();
         $emp=Employee::find($id);
         $emp->name=$request->name;
         $emp->email=$request->email;
@@ -69,6 +87,15 @@ class EmployeeController extends Controller
             $emp->img=$path.$filename;
         }
         $emp->save();
+        DB::commit();
+
+    }
+    catch(Exception $e){
+
+        DB::rollback();
+        return response()->json(['status'=>'error','details'=>'Something went wrong!']);
+
+    }
         return response()->json(['status'=>'success']);
 
 
@@ -77,6 +104,10 @@ class EmployeeController extends Controller
     }
 
     public function deleteEmployee($id){
+
+        try{
+
+            DB::beginTransaction();
 
         $emp=Employee::find($id);
         if(empty($emp))
@@ -88,6 +119,15 @@ class EmployeeController extends Controller
         if($emp->delete()){
             return response()->json(['status'=>'success']);
         }
+        DB::commit();
+
+    }
+    catch(Exception $e){
+
+        DB::rollback();
+        return response()->json(['status'=>'error','details'=>'Something went wrong!']);
+
+    }
 
         return response()->json(['status'=>'error']);
 

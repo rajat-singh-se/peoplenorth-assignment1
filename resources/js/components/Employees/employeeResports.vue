@@ -2,7 +2,7 @@
   <v-app class="no_height">
 
     <v-card
-      :max-width="maxWidth ? 900 : 448"
+
       class="mx-auto"
       color="grey-lighten-3"
     >
@@ -13,7 +13,7 @@
       {{ alertText }}
     </v-alert>
       <v-layout>
-        <v-app-bar
+        <v-app-bar style="position:fixed"
           color="teal-darken-4"
           image="https://picsum.photos/1920/1080?random"
         >
@@ -75,12 +75,19 @@
             </template>
           </v-dialog>
 
+          <form action="logout" method="Post">
+            <input type="hidden" name="_token" :value="csrf">
+          <v-btn type="submit" icon>
+                <v-icon>mdi-logout</v-icon>
+              </v-btn>
+            </form>
 
 
-          <v-btn @click="maxWidth = !maxWidth" icon>
+
+          <!-- <v-btn @click="maxWidth = !maxWidth" icon>
             <v-icon v-if="maxWidth">mdi-window-minimize</v-icon>
             <v-icon v-else>mdi-window-maximize</v-icon>
-          </v-btn>
+          </v-btn> -->
         </v-app-bar>
 
         <v-main id="main" >
@@ -135,7 +142,7 @@
   </v-app>
 </template>
 <script>
-import DataService from '../dataservice.js';
+import DataService from '../../dataservice.js';
 import EmployeeCreate from "./createEmployees.vue";
 export default {
   components: { EmployeeCreate },
@@ -153,6 +160,7 @@ export default {
       employees:[],
       edit_id:0,
       selectedItem:{},
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 
       items: [
         {

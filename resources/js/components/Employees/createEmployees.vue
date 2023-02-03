@@ -116,7 +116,7 @@
 
 </template>
 <script>
-import DataService from '../dataservice.js';
+import DataService from '../../dataservice.js';
 
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'

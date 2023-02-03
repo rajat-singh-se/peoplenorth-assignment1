@@ -1,12 +1,14 @@
 <template>
-    <Employees />
+
+    <router-view></router-view>
 
 </template>
 <script>
-import Employees from './components/employeeResports.vue';
+// import Employees from './components/employeeResports.vue';
 
 export default{
-    components:{Employees,
+    components:{
+        // Employees,
 
 },
     data() {

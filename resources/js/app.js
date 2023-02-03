@@ -7,6 +7,8 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
+import router from './router'
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -16,6 +18,6 @@ import index from './index.vue';
 
 
 
-createApp(index).use(vuetify).mount('#app');
+createApp(index).use(vuetify).use(router).mount('#app');
 
 
